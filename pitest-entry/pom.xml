@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>pitest-parent</artifactId>
 		<groupId>org.pitest</groupId>
-		<version>1.2.4-SNAPSHOT</version>
+		<version>1.2.5-SNAPSHOT</version>
 	</parent>
 	<artifactId>pitest-entry</artifactId>
 	<name>pitest-entry</name>
@@ -126,7 +126,12 @@
 		own unshaded copy for main process analysis purposes  -->
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
-			<artifactId>asm-debug-all</artifactId>
+			<artifactId>asm</artifactId>
+			<version>${asm.version}</version>
+		</dependency>		
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-util</artifactId>
 			<version>${asm.version}</version>
 		</dependency>		
 		
