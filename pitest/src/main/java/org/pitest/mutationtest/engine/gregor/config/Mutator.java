@@ -31,6 +31,7 @@ import org.pitest.functional.prelude.Prelude;
 import org.pitest.help.Help;
 import org.pitest.help.PitHelpError;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
+
 import org.pitest.mutationtest.engine.gregor.mutators.ArgumentPropagationMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.ConditionalsBoundaryMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.ConstructorCallMutator;
@@ -50,7 +51,10 @@ import org.pitest.mutationtest.engine.gregor.mutators.experimental.RemoveSwitchM
 import org.pitest.mutationtest.engine.gregor.mutators.experimental.SwitchMutator;
 
 import org.pitest.mutationtest.engine.gregor.mutators.ArithmetricMutator;
-
+import org.pitest.mutationtest.engine.gregor.mutators.ArithmetricMutator2;
+import org.pitest.mutationtest.engine.gregor.mutators.ArithmetricMutator3;
+import org.pitest.mutationtest.engine.gregor.mutators.ABSMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.AODMutator;
 public final class Mutator {
 
   private static final Map<String, Iterable<MethodMutatorFactory>> MUTATORS = new LinkedHashMap<String, Iterable<MethodMutatorFactory>>();
@@ -125,8 +129,12 @@ public final class Mutator {
     /**
      * User added mutators
      */
-    add("AR_MUTATOR", ArithmetricMutator.AR_MUTATOR);
+    add("AR_MUTATOR1", ArithmetricMutator.AR_MUTATOR);
+    add("AR_MUTATOR2", ArithmetricMutator2.AR_MUTATOR);
+    add("AR_MUTATOR3", ArithmetricMutator3.AR_MUTATOR);
 
+    add("ABS_MUTATOR", ABSMutator.ABS_MUTATOR);
+    add("AOD_MUTATOR", AODMutator.AOD_MUTATOR);
     /**
      * Removes conditional statements so that guarded statements always execute
      * The EQUAL version ignores LT,LE,GT,GE, which is the default behavior,
@@ -202,7 +210,8 @@ public final class Mutator {
         NegateConditionalsMutator.NEGATE_CONDITIONALS_MUTATOR,
         ConditionalsBoundaryMutator.CONDITIONALS_BOUNDARY_MUTATOR,
         IncrementsMutator.INCREMENTS_MUTATOR,
-        ArithmetricMutator.AR_MUTATOR);
+        ArithmetricMutator.AR_MUTATOR,ArithmetricMutator2.AR_MUTATOR,ArithmetricMutator3.AR_MUTATOR,
+        ABSMutator.ABS_MUTATOR,AODMutator.AOD_MUTATOR);
   }
 
   private static Collection<MethodMutatorFactory> group(

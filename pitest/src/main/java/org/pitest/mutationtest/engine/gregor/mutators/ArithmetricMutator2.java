@@ -27,14 +27,14 @@ import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
 import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
 
-public enum ArithmetricMutator implements MethodMutatorFactory {
+public enum ArithmetricMutator2 implements MethodMutatorFactory {
 
   AR_MUTATOR;
 
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new ArithmetricMethodVisitor(this, methodInfo, context, methodVisitor);
+    return new ArithmetricMethodVisitor2(this, methodInfo, context, methodVisitor);
   }
 
   @Override
@@ -49,9 +49,9 @@ public enum ArithmetricMutator implements MethodMutatorFactory {
 
 }
 
-class ArithmetricMethodVisitor extends AbstractInsnMutator {
+class ArithmetricMethodVisitor2 extends AbstractInsnMutator {
 
-    ArithmetricMethodVisitor(final MethodMutatorFactory factory,
+    ArithmetricMethodVisitor2(final MethodMutatorFactory factory,
       final MethodInfo methodInfo, final MutationContext context,
       final MethodVisitor writer) {
     super(factory, methodInfo, context, writer);
@@ -61,21 +61,21 @@ class ArithmetricMethodVisitor extends AbstractInsnMutator {
 
   static {
 
-    MUTATIONS.put(Opcodes.IADD, new InsnSubstitution(Opcodes.IMUL,
+    MUTATIONS.put(Opcodes.IADD, new InsnSubstitution(Opcodes.ISUB,
             "Replaced integer addition with multiplication (AOR)"));
 
 
-
-   MUTATIONS.put(Opcodes.ISUB, new InsnSubstitution(Opcodes.IMUL,
+   MUTATIONS.put(Opcodes.ISUB, new InsnSubstitution(Opcodes.IADD,
             "Replaced integer subtraction with multiplication (AOR)"));
 
     
-    MUTATIONS.put(Opcodes.IMUL, new InsnSubstitution(Opcodes.IDIV,
-        "Replaced integer multiplication with division (AOR)"));
 
-    
-    MUTATIONS.put(Opcodes.IDIV, new InsnSubstitution(Opcodes.IMUL,
-        "Replaced integer division with multiplication (AOR)"));
+    MUTATIONS.put(Opcodes.IMUL, new InsnSubstitution(Opcodes.IADD,
+            "Replaced integer multiplication with addition (AOR)"));
+
+
+    MUTATIONS.put(Opcodes.IDIV, new InsnSubstitution(Opcodes.IADD,
+            "Replaced integer division with addition (AOR)"));
 
     
 
@@ -83,59 +83,65 @@ class ArithmetricMethodVisitor extends AbstractInsnMutator {
     // longs
 
 
-    MUTATIONS.put(Opcodes.LADD, new InsnSubstitution(Opcodes.LMUL,
+    MUTATIONS.put(Opcodes.LADD, new InsnSubstitution(Opcodes.LSUB,
             "Replaced long addition with subtraction (AOR)"));
 
     
 
-    MUTATIONS.put(Opcodes.LSUB, new InsnSubstitution(Opcodes.LMUL,
+    MUTATIONS.put(Opcodes.LSUB, new InsnSubstitution(Opcodes.LADD,
             "Replaced long subtraction with substraction (AOR)"));
 
     
-    MUTATIONS.put(Opcodes.LMUL, new InsnSubstitution(Opcodes.LDIV,
-        "Replaced long multiplication with division (AOR)"));
 
-    MUTATIONS.put(Opcodes.LDIV, new InsnSubstitution(Opcodes.LMUL,
-       "Replaced long division with multiplication (AOR)"));
+   MUTATIONS.put(Opcodes.LMUL, new InsnSubstitution(Opcodes.LADD,
+            "Replaced long multiplication with addition (AOR)"));
+
+    
+
+    MUTATIONS.put(Opcodes.LDIV, new InsnSubstitution(Opcodes.LADD,
+            "Replaced long division with addition (AOR)"));
 
 
 
     // floats
 
-    MUTATIONS.put(Opcodes.FADD, new InsnSubstitution(Opcodes.FMUL,
+    MUTATIONS.put(Opcodes.FADD, new InsnSubstitution(Opcodes.FSUB,
             "Replaced float addition with multiplication (AOR)"));
 
-
-    MUTATIONS.put(Opcodes.FSUB, new InsnSubstitution(Opcodes.FMUL,
-            "Replaced float subtraction with multiplication (AOR)"));
+    
+    MUTATIONS.put(Opcodes.FSUB, new InsnSubstitution(Opcodes.FADD,
+        "Replaced float subtraction with addition (AOR)"));
 
     
-    MUTATIONS.put(Opcodes.FMUL, new InsnSubstitution(Opcodes.FDIV,
-        "Replaced float multiplication with division (AOR)"));
+
+    MUTATIONS.put(Opcodes.FMUL, new InsnSubstitution(Opcodes.FADD,
+            "Replaced float multiplication with addition (AOR)"));
 
     
-    MUTATIONS.put(Opcodes.FDIV, new InsnSubstitution(Opcodes.FMUL,
-        "Replaced float division with multiplication (AOR)"));
+
+    MUTATIONS.put(Opcodes.FDIV, new InsnSubstitution(Opcodes.FADD,
+            "Replaced float division with addition (AOR)"));
 
 
 
     // doubles
+    MUTATIONS.put(Opcodes.DADD, new InsnSubstitution(Opcodes.DSUB,
+        "Replaced double addition with subtraction (AOR)"));
 
-    MUTATIONS.put(Opcodes.DADD, new InsnSubstitution(Opcodes.DMUL,
-            "Replaced double addition with multiplication (AOR)"));
+    
+    MUTATIONS.put(Opcodes.DSUB, new InsnSubstitution(Opcodes.DADD,
+        "Replaced double subtraction with addition (AOR)"));
+
 
     
 
-    MUTATIONS.put(Opcodes.DSUB, new InsnSubstitution(Opcodes.DMUL,
-            "Replaced double subtraction with multiplication (AOR)"));
+    MUTATIONS.put(Opcodes.DMUL, new InsnSubstitution(Opcodes.DADD,
+            "Replaced double multiplication with addition (AOR)"));
 
     
-    MUTATIONS.put(Opcodes.DMUL, new InsnSubstitution(Opcodes.DDIV,
-        "Replaced double multiplication with division (AOR)"));
 
-    
-    MUTATIONS.put(Opcodes.DDIV, new InsnSubstitution(Opcodes.DMUL,
-        "Replaced double division with multiplication (AOR)"));
+    MUTATIONS.put(Opcodes.DDIV, new InsnSubstitution(Opcodes.DADD,
+            "Replaced double division with addition (AOR)"));
 
 
   }

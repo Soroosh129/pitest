@@ -14,17 +14,14 @@
  */
 package org.pitest.mutationtest.engine.gregor.mutators;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.AbstractInsnMutator;
-import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
+import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
-import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
+
 
 public enum ABSMutator implements MethodMutatorFactory {
 
@@ -33,7 +30,7 @@ public enum ABSMutator implements MethodMutatorFactory {
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new InvertNegsMethodVisitor(this, methodInfo, context, methodVisitor);
+    return new ABSMutatorVisitor(this,context,methodVisitor);
   }
 
   @Override
@@ -48,27 +45,36 @@ public enum ABSMutator implements MethodMutatorFactory {
 
 }
 
-class ABSMethodVisitor extends AbstractInsnMutator {
+class ABSMutatorVisitor extends MethodVisitor {
+  private final MutationContext context;
+  private final MethodMutatorFactory factory;
 
-  private static final String                            MESSAGE   = "removed negation";
-  private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
-
-  static {
-    MUTATIONS.put(Opcodes.INEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.DNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.FNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.LNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-  }
-
-  ABSMethodVisitor(final MethodMutatorFactory factory,
-      final MethodInfo methodInfo, final MutationContext context,
-      final MethodVisitor writer) {
-    super(factory, methodInfo, context, writer);
-  }
+  ABSMutatorVisitor(final MethodMutatorFactory factory, final MutationContext context,
+       final MethodVisitor methodvisitor) {
+    super(Opcodes.ASM6,methodvisitor);
+    this.context = context;
+    this.factory = factory;
+}
 
   @Override
-  protected Map<Integer, ZeroOperandMutation> getMutations() {
-    return MUTATIONS;
-  }
+  public void visitVarInsn(final int opcode, final int var) {
 
+      final MutationIdentifier mutationId = this.context.registerMutation(
+          this.factory, "negate variable ");
+      if (this.context.shouldMutate(mutationId)) {
+      
+      switch (opcode) {
+      case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.INEG);break;
+      case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.LNEG);break;
+      case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.FNEG);break;
+      case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.DNEG);break;
+      default:
+      this.mv.visitVarInsn(opcode,var);
+     }
+     } else {
+       this.mv.visitVarInsn(opcode,var);
+    }
+
+
+}
 }
