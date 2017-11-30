@@ -20,20 +20,20 @@ import java.util.Map;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.pitest.mutationtest.engine.gregor.AbstractInsnMutator;
-import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
+import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
 import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
 
-public enum ABSMutator implements MethodMutatorFactory {
+public enum OBBNMutator implements MethodMutatorFactory {
 
-  ABS_MUTATOR;
+  OBBN_MUTATOR;
 
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new InvertNegsMethodVisitor(this, methodInfo, context, methodVisitor);
+    return new OBBNVisitor(this, methodInfo, context, methodVisitor);
   }
 
   @Override
@@ -48,22 +48,21 @@ public enum ABSMutator implements MethodMutatorFactory {
 
 }
 
-class ABSMethodVisitor extends AbstractInsnMutator {
+class OBBNVisitor extends AbstractInsnMutator {
 
-  private static final String                            MESSAGE   = "removed negation";
-  private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
+  private static final String                     DESCRIPTION = "changed AND/OR";
+  private static final Map<Integer, ZeroOperandMutation> MUTATIONS   = new HashMap<Integer, ZeroOperandMutation>();
 
   static {
-    MUTATIONS.put(Opcodes.INEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.DNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.FNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.LNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.IOR, new InsnSubstitution(Opcodes.IAND, DESCRIPTION));
+    MUTATIONS.put(Opcodes.IAND, new InsnSubstitution(Opcodes.IOR, DESCRIPTION));
+    MUTATIONS.put(Opcodes.LOR, new InsnSubstitution(Opcodes.LAND, DESCRIPTION));
+    MUTATIONS.put(Opcodes.LAND, new InsnSubstitution(Opcodes.LOR, DESCRIPTION));
   }
 
-  ABSMethodVisitor(final MethodMutatorFactory factory,
-      final MethodInfo methodInfo, final MutationContext context,
-      final MethodVisitor writer) {
-    super(factory, methodInfo, context, writer);
+  OBBNVisitor(final MethodMutatorFactory factory,
+     final MethodInfo methodInfo, final MutationContext context, final MethodVisitor delegateMethodVisitor) {
+    super(factory, methodInfo, context, delegateMethodVisitor);
   }
 
   @Override

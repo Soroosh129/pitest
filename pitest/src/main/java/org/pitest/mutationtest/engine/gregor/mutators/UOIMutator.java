@@ -26,14 +26,14 @@ import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
 import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
 
-public enum ABSMutator implements MethodMutatorFactory {
+public enum UOIMutator implements MethodMutatorFactory {
 
-  ABS_MUTATOR;
+  UOI_MUTATOR;
 
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new InvertNegsMethodVisitor(this, methodInfo, context, methodVisitor);
+    return new UOIMethodVisitor(this, methodInfo, context, methodVisitor);
   }
 
   @Override
@@ -48,9 +48,9 @@ public enum ABSMutator implements MethodMutatorFactory {
 
 }
 
-class ABSMethodVisitor extends AbstractInsnMutator {
+class UOIMethodVisitor extends AbstractInsnMutator {
 
-  private static final String                            MESSAGE   = "removed negation";
+  private static final String                            MESSAGE   = "UOI";
   private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
 
   static {
@@ -60,7 +60,7 @@ class ABSMethodVisitor extends AbstractInsnMutator {
     MUTATIONS.put(Opcodes.LNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
   }
 
-  ABSMethodVisitor(final MethodMutatorFactory factory,
+  UOIMethodVisitor(final MethodMutatorFactory factory,
       final MethodInfo methodInfo, final MutationContext context,
       final MethodVisitor writer) {
     super(factory, methodInfo, context, writer);
