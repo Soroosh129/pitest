@@ -23,14 +23,14 @@ import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
 
 
-public enum ABSMutator implements MethodMutatorFactory {
+public enum UOIMutator2 implements MethodMutatorFactory {
 
-  ABS_MUTATOR;
+  UOI_MUTATOR2;
 
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new ABSMutatorVisitor(this,context,methodVisitor);
+    return new UOIMethodVisitor2(this,context,methodVisitor);
   }
 
   @Override
@@ -45,11 +45,11 @@ public enum ABSMutator implements MethodMutatorFactory {
 
 }
 
-class ABSMutatorVisitor extends MethodVisitor {
+class UOIMethodVisitor2 extends MethodVisitor {
   private final MutationContext context;
   private final MethodMutatorFactory factory;
 
-  ABSMutatorVisitor(final MethodMutatorFactory factory, final MutationContext context,
+  UOIMethodVisitor2(final MethodMutatorFactory factory, final MutationContext context,
        final MethodVisitor methodvisitor) {
     super(Opcodes.ASM6,methodvisitor);
     this.context = context;
@@ -68,20 +68,18 @@ class ABSMutatorVisitor extends MethodVisitor {
       case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);break;
       case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);break;
       case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);break;
-
-      case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.INEG);break;
-      case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.LNEG);break;
-      case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.FNEG);break;
-      case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.DNEG);break;
-  
-    default:
+      //case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
+      //case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
+      //case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
+      //case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
+      default:
       this.mv.visitVarInsn(opcode,var);
-     }
-     
+    }
+   
 } 
 else {*/
        this.mv.visitVarInsn(opcode,var);
-    //}
+//}
 
 
 }

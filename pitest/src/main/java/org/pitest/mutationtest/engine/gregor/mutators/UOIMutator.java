@@ -14,17 +14,12 @@
  */
 package org.pitest.mutationtest.engine.gregor.mutators;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
-import org.pitest.mutationtest.engine.gregor.AbstractInsnMutator;
-import org.pitest.mutationtest.engine.gregor.InsnSubstitution;
+import org.pitest.mutationtest.engine.MutationIdentifier;
 import org.pitest.mutationtest.engine.gregor.MethodInfo;
 import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
-import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
 
 public enum UOIMutator implements MethodMutatorFactory {
 
@@ -33,7 +28,7 @@ public enum UOIMutator implements MethodMutatorFactory {
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new UOIMethodVisitor(this, methodInfo, context, methodVisitor);
+    return new UOIMethodVisitor(this, context, methodVisitor);
   }
 
   @Override
@@ -45,30 +40,29 @@ public enum UOIMutator implements MethodMutatorFactory {
   public String getName() {
     return name();
   }
-
 }
 
-class UOIMethodVisitor extends AbstractInsnMutator {
+class UOIMethodVisitor extends MethodVisitor {
 
-  private static final String                            MESSAGE   = "UOI";
-  private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
-
-  static {
-    MUTATIONS.put(Opcodes.INEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.DNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.FNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.LNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-  }
+  private final MethodMutatorFactory factory;
+  private final MutationContext      context;
 
   UOIMethodVisitor(final MethodMutatorFactory factory,
-      final MethodInfo methodInfo, final MutationContext context,
-      final MethodVisitor writer) {
-    super(factory, methodInfo, context, writer);
+      final MutationContext context, final MethodVisitor delegateMethodVisitor) {
+    super(Opcodes.ASM6, delegateMethodVisitor);
+    this.factory = factory;
+    this.context = context;
   }
 
   @Override
-  protected Map<Integer, ZeroOperandMutation> getMutations() {
-    return MUTATIONS;
+  public void visitIincInsn(final int var, final int increment) {
+    final MutationIdentifier newId = this.context.registerMutation(
+        this.factory, "Removed increment " + increment);
+    if (this.context.shouldMutate(newId)) {
+      this.mv.visitInsn(Opcodes.NOP);
+    } else {
+      this.mv.visitIincInsn(var, increment);
+    }
   }
 
 }
