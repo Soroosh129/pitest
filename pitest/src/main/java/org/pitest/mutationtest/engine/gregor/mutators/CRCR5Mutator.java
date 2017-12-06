@@ -294,7 +294,7 @@ public class CRCR5Mutator implements MethodMutatorFactory {
 
   @Override
   public String toString() {
-    return "CRCR5_MUTATOR";
+    return "CRCR_MUTATOR";
   }
 
   @Override

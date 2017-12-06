@@ -26,14 +26,14 @@ import org.pitest.mutationtest.engine.gregor.MethodMutatorFactory;
 import org.pitest.mutationtest.engine.gregor.MutationContext;
 import org.pitest.mutationtest.engine.gregor.ZeroOperandMutation;
 
-public enum InvertNegsMutator implements MethodMutatorFactory {
+public enum AODMutator2 implements MethodMutatorFactory {
 
-  INVERT_NEGS_MUTATOR;
+  AOD_MUTATOR;
 
   @Override
   public MethodVisitor create(final MutationContext context,
       final MethodInfo methodInfo, final MethodVisitor methodVisitor) {
-    return new InvertNegsMethodVisitor(this, methodInfo, context, methodVisitor);
+    return new AODMutatorVisitor2(this, methodInfo, context, methodVisitor);
   }
 
   @Override
@@ -48,19 +48,34 @@ public enum InvertNegsMutator implements MethodMutatorFactory {
 
 }
 
-class InvertNegsMethodVisitor extends AbstractInsnMutator {
+class AODMutatorVisitor2 extends AbstractInsnMutator {
 
-  private static final String                            MESSAGE   = "removed negation";
+  private static final String                            MESSAGE   = "replace expression with second oprator";
   private static final Map<Integer, ZeroOperandMutation> MUTATIONS = new HashMap<Integer, ZeroOperandMutation>();
 
   static {
-    MUTATIONS.put(Opcodes.INEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.DNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.FNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
-    MUTATIONS.put(Opcodes.LNEG, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.FDIV, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.FMUL, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.FADD, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.FSUB, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+
+    MUTATIONS.put(Opcodes.DDIV, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.DMUL, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.DADD, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.DSUB, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+
+    MUTATIONS.put(Opcodes.IDIV, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.IMUL, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.IADD, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.ISUB, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+
+    MUTATIONS.put(Opcodes.LDIV, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.LMUL, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.LADD, new InsnSubstitution(Opcodes.NOP, MESSAGE));
+    MUTATIONS.put(Opcodes.LSUB, new InsnSubstitution(Opcodes.NOP, MESSAGE));
   }
 
-  InvertNegsMethodVisitor(final MethodMutatorFactory factory,
+  AODMutatorVisitor2(final MethodMutatorFactory factory,
       final MethodInfo methodInfo, final MutationContext context,
       final MethodVisitor writer) {
     super(factory, methodInfo, context, writer);

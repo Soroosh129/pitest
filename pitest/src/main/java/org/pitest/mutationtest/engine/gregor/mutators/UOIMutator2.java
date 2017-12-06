@@ -25,7 +25,7 @@ import org.pitest.mutationtest.engine.gregor.MutationContext;
 
 public enum UOIMutator2 implements MethodMutatorFactory {
 
-  UOI_MUTATOR2;
+  UOI_MUTATOR;
 
   @Override
   public MethodVisitor create(final MutationContext context,
@@ -58,12 +58,15 @@ class UOIMethodVisitor2 extends MethodVisitor {
 
   @Override
   public void visitVarInsn(final int opcode, final int var) {
-
       final MutationIdentifier mutationId = this.context.registerMutation(
           this.factory, "negate variable ");
       if (this.context.shouldMutate(mutationId)) {
       
       switch (opcode) {
+      //case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);break;
+      //case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);break;
+      //case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);break;
+      //case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);break;
       case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
       case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
       case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitIincInsn(var, 1);break;
@@ -71,7 +74,8 @@ class UOIMethodVisitor2 extends MethodVisitor {
       default:
       this.mv.visitVarInsn(opcode,var);
     }
-    } else {
+   
+} else {
        this.mv.visitVarInsn(opcode,var);
 }
 

@@ -59,20 +59,20 @@ class AODMutatorVisitor extends AbstractInsnMutator {
     MUTATIONS.put(Opcodes.FADD, new InsnSubstitution(Opcodes.POP, MESSAGE));
     MUTATIONS.put(Opcodes.FSUB, new InsnSubstitution(Opcodes.POP, MESSAGE));
 
-    MUTATIONS.put(Opcodes.DDIV, new InsnSubstitution(Opcodes.POP, MESSAGE));
-    MUTATIONS.put(Opcodes.DMUL, new InsnSubstitution(Opcodes.POP, MESSAGE));
-    MUTATIONS.put(Opcodes.DADD, new InsnSubstitution(Opcodes.POP, MESSAGE));
-    MUTATIONS.put(Opcodes.DSUB, new InsnSubstitution(Opcodes.POP, MESSAGE));
+    MUTATIONS.put(Opcodes.DDIV, new InsnSubstitution(Opcodes.POP2, MESSAGE));
+    MUTATIONS.put(Opcodes.DMUL, new InsnSubstitution(Opcodes.POP2, MESSAGE));
+    MUTATIONS.put(Opcodes.DADD, new InsnSubstitution(Opcodes.POP2, MESSAGE));
+    MUTATIONS.put(Opcodes.DSUB, new InsnSubstitution(Opcodes.POP2, MESSAGE));
 
     MUTATIONS.put(Opcodes.IDIV, new InsnSubstitution(Opcodes.POP, MESSAGE));
     MUTATIONS.put(Opcodes.IMUL, new InsnSubstitution(Opcodes.POP, MESSAGE));
     MUTATIONS.put(Opcodes.IADD, new InsnSubstitution(Opcodes.POP, MESSAGE));
     MUTATIONS.put(Opcodes.ISUB, new InsnSubstitution(Opcodes.POP, MESSAGE));
 
-    MUTATIONS.put(Opcodes.LDIV, new InsnSubstitution(Opcodes.POP, MESSAGE));
-    MUTATIONS.put(Opcodes.LMUL, new InsnSubstitution(Opcodes.POP, MESSAGE));
-    MUTATIONS.put(Opcodes.LADD, new InsnSubstitution(Opcodes.POP, MESSAGE));
-    MUTATIONS.put(Opcodes.LSUB, new InsnSubstitution(Opcodes.POP, MESSAGE));
+    MUTATIONS.put(Opcodes.LDIV, new InsnSubstitution(Opcodes.POP2, MESSAGE));
+    MUTATIONS.put(Opcodes.LMUL, new InsnSubstitution(Opcodes.POP2, MESSAGE));
+    MUTATIONS.put(Opcodes.LADD, new InsnSubstitution(Opcodes.POP2, MESSAGE));
+    MUTATIONS.put(Opcodes.LSUB, new InsnSubstitution(Opcodes.POP2, MESSAGE));
   }
 
   AODMutatorVisitor(final MethodMutatorFactory factory,

@@ -62,16 +62,26 @@ class ABSMutatorVisitor extends MethodVisitor {
       final MutationIdentifier mutationId = this.context.registerMutation(
           this.factory, "negate variable ");
       if (this.context.shouldMutate(mutationId)) {
+      
       switch (opcode) {
+/*      case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);break;
+      case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);break;
+      case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);break;
+      case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);break;
+*/
       case Opcodes.ILOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.INEG);break;
       case Opcodes.LLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.LNEG);break;
       case Opcodes.FLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.FNEG);break;
       case Opcodes.DLOAD:this.mv.visitVarInsn(opcode,var);this.mv.visitInsn(Opcodes.DNEG);break;
-      default:
+  
+    default:
       this.mv.visitVarInsn(opcode,var);
      }
-     } else {
+     
+} else {
        this.mv.visitVarInsn(opcode,var);
     }
+
+
 }
 }

@@ -26,7 +26,7 @@ import org.pitest.mutationtest.engine.gregor.MutationContext;
 
 public enum RORMutator8 implements MethodMutatorFactory {
 
-  ROR_MUTATOR8;
+  ROR_MUTATOR;
 
   @Override
   public MethodVisitor create(final MutationContext context,

@@ -55,6 +55,7 @@ import org.pitest.mutationtest.engine.gregor.mutators.ArithmetricMutator2;
 import org.pitest.mutationtest.engine.gregor.mutators.ArithmetricMutator3;
 import org.pitest.mutationtest.engine.gregor.mutators.ABSMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.AODMutator;
+import org.pitest.mutationtest.engine.gregor.mutators.AODMutator2;
 import org.pitest.mutationtest.engine.gregor.mutators.OBBNMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.UOIMutator;
 import org.pitest.mutationtest.engine.gregor.mutators.UOIMutator2;
@@ -152,20 +153,20 @@ public final class Mutator {
 
     add("ABS_MUTATOR", ABSMutator.ABS_MUTATOR);
     add("AOD_MUTATOR", AODMutator.AOD_MUTATOR);
-    
+    add("AOD_MUTATOR2",AODMutator2.AOD_MUTATOR);
     add("OBBN_MUTATOR", OBBNMutator.OBBN_MUTATOR);
 
     add("UOI_MUTATOR", UOIMutator.UOI_MUTATOR);
-    add("UOI_MUTATOR2", UOIMutator2.UOI_MUTATOR2);
+    add("UOI_MUTATOR2", UOIMutator2.UOI_MUTATOR);
 
     add("ROR_MUTATOR", RORMutator.ROR_MUTATOR);
-    add("ROR_MUTATOR2", RORMutator2.ROR_MUTATOR2);
-    add("ROR_MUTATOR3", RORMutator3.ROR_MUTATOR3);
-    add("ROR_MUTATOR4", RORMutator4.ROR_MUTATOR4);
-    add("ROR_MUTATOR5", RORMutator5.ROR_MUTATOR5);
-    add("ROR_MUTATOR6", RORMutator6.ROR_MUTATOR6);
-    add("ROR_MUTATOR7", RORMutator7.ROR_MUTATOR7);
-    add("ROR_MUTATOR8", RORMutator8.ROR_MUTATOR8);
+    add("ROR_MUTATOR2", RORMutator2.ROR_MUTATOR);
+    add("ROR_MUTATOR3", RORMutator3.ROR_MUTATOR);
+    add("ROR_MUTATOR4", RORMutator4.ROR_MUTATOR);
+    add("ROR_MUTATOR5", RORMutator5.ROR_MUTATOR);
+    add("ROR_MUTATOR6", RORMutator6.ROR_MUTATOR);
+    add("ROR_MUTATOR7", RORMutator7.ROR_MUTATOR);
+    add("ROR_MUTATOR8", RORMutator8.ROR_MUTATOR);
 
     add("CRCR_MUTATOR", new CRCRMutator());
     add("CRCR2_MUTATOR", new CRCR2Mutator());
@@ -173,6 +174,7 @@ public final class Mutator {
 
     add("CRCR4_MUTATOR", new CRCR4Mutator());
     add("CRCR5_MUTATOR", new CRCR5Mutator());
+   
     /**
      * Removes conditional statements so that guarded statements always execute
      * The EQUAL version ignores LT,LE,GT,GE, which is the default behavior,
@@ -242,16 +244,15 @@ public final class Mutator {
    * performance
    */
   public static Collection<MethodMutatorFactory> defaults() {
-    return group(InvertNegsMutator.INVERT_NEGS_MUTATOR,
-        ReturnValsMutator.RETURN_VALS_MUTATOR, MathMutator.MATH_MUTATOR,
-        VoidMethodCallMutator.VOID_METHOD_CALL_MUTATOR,
-        NegateConditionalsMutator.NEGATE_CONDITIONALS_MUTATOR,
-        ConditionalsBoundaryMutator.CONDITIONALS_BOUNDARY_MUTATOR,
-        IncrementsMutator.INCREMENTS_MUTATOR,
+    return group(
+//        MathMutator.MATH_MUTATOR,
         ArithmetricMutator.AR_MUTATOR,ArithmetricMutator2.AR_MUTATOR,ArithmetricMutator3.AR_MUTATOR,
-        ABSMutator.ABS_MUTATOR,AODMutator.AOD_MUTATOR,
-        new CRCRMutator(),new CRCR2Mutator(),new CRCR3Mutator(),
-        new CRCR4Mutator(),new CRCR5Mutator(),RORMutator.ROR_MUTATOR,RORMutator2.ROR_MUTATOR2, RORMutator3.ROR_MUTATOR3, RORMutator4.ROR_MUTATOR4, RORMutator5.ROR_MUTATOR5,RORMutator6.ROR_MUTATOR6,RORMutator7.ROR_MUTATOR7,RORMutator8.ROR_MUTATOR8,UOIMutator.UOI_MUTATOR,UOIMutator2.UOI_MUTATOR2,OBBNMutator.OBBN_MUTATOR);
+        ABSMutator.ABS_MUTATOR,
+        AODMutator.AOD_MUTATOR,AODMutator2.AOD_MUTATOR,
+        new CRCRMutator(),new CRCR2Mutator(),new CRCR3Mutator(),new CRCR4Mutator(),new CRCR5Mutator(),
+        RORMutator.ROR_MUTATOR,RORMutator2.ROR_MUTATOR, RORMutator3.ROR_MUTATOR, RORMutator4.ROR_MUTATOR, RORMutator5.ROR_MUTATOR,RORMutator6.ROR_MUTATOR,RORMutator7.ROR_MUTATOR,RORMutator8.ROR_MUTATOR,  
+        UOIMutator.UOI_MUTATOR,UOIMutator2.UOI_MUTATOR,
+        OBBNMutator.OBBN_MUTATOR);
   }
 
   private static Collection<MethodMutatorFactory> group(
